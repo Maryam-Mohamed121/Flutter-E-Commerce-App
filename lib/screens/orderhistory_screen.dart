@@ -23,10 +23,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('email');
     if (userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please login to view order history')),
-      );
-      return;
+      return print("login first");
     }
     setState(() {
       _currentUserId = userId;

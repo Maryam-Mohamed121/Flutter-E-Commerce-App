@@ -70,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Please login to place an order')));
-      return;
+      return print("login first");
     }
 
     final prefs = await SharedPreferences.getInstance();
@@ -82,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
       items: List.from(_cartItems),
       totalAmount: totalPrice,
       orderDate: DateTime.now(),
-      status: 'pending',
+
     );
 
     // Get existing orders for this user
@@ -143,10 +143,16 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void increaseQuantity(int index) {
-    setState(() {
-      _cartItems[index].quantity++;
-    });
-    updateCart();
+    if (_cartItems[index].quantity < _cartItems[index].maxQuantity) {
+      setState(() {
+        _cartItems[index].quantity++;
+      });
+      updateCart();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Maximum available quantity reached')),
+      );
+    }
   }
 
   void decreaseQuantity(int index) {

@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Categories
               Padding(
-                padding: const EdgeInsets.symmetric(
+                padding:  EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Featured Products
               SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(
+                padding:  EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // New Arrivals
               SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(
+                padding:  EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
@@ -276,10 +276,10 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 150,
               height: 100,
               padding: EdgeInsets.all(5),
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
+              margin: EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: Color(0xFF476A88),
-                borderRadius: BorderRadius.circular(12.0),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -327,12 +327,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.7,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
       ),
       itemCount: featuredProducts.length,
       itemBuilder: (context, index) {
@@ -355,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Container(
             width: 160,
-            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            margin: EdgeInsets.symmetric(horizontal: 8),
             child: ProductCard(product: newArrivals[index]),
           );
         },

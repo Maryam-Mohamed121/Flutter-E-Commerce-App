@@ -93,12 +93,12 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
               child: _sortedProducts.isEmpty
                   ? Center(child: Text('No products in this category'))
                   : GridView.builder(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.7,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
                       ),
                       itemCount: _sortedProducts.length,
                       itemBuilder: (context, index) {

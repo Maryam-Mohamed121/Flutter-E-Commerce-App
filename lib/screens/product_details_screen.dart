@@ -31,9 +31,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('email');
     if (userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please login to use cart and favorites')),
-      );
+      return print("login first");
     }
     setState(() {
       _currentUserId = userId;
@@ -43,13 +41,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Future<void> _checkCartStatus() async {
-    if (_currentUserId == null) return;
+    if (_currentUserId == null) return print("no user");
 
     final cartItems = await getCartItems();
     final cartItem = cartItems.firstWhere(
       (item) => item.id == widget.product.id,
       orElse: () =>
-          CartItem(id: -1, name: '', price: 0, image: '', quantity: 0),
+          CartItem(id: -1, name: '', price: 0, image: '', quantity: 0,maxQuantity: widget.product.quantity),
     );
 
     setState(() {
@@ -89,10 +87,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Future<void> toggleCart() async {
     if (_currentUserId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please login to add items to cart')),
-      );
-      return;
+
+      return print("no user");
     }
 
     try {
@@ -113,7 +109,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           name: widget.product.name,
           price: widget.product.price,
           image: widget.product.image,
-          quantity: quantity,
+          quantity: quantity, maxQuantity: widget.product.quantity
+
         );
 
         // Check if item already exists in cart
@@ -152,7 +149,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Future<void> _checkFavoriteStatus() async {
-    if (_currentUserId == null) return;
+    if (_currentUserId == null) return print("no user");
 
     final prefs = await SharedPreferences.getInstance();
     final String? wishlistItems = prefs.getString('wishlist_${_currentUserId}');
@@ -168,10 +165,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Future<void> toggleFavorite() async {
     if (_currentUserId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Please login to add favorites')));
-      return;
+       return print("no user");
     }
 
     final prefs = await SharedPreferences.getInstance();
@@ -296,48 +290,52 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.remove_circle_outline),
-                        onPressed: () {
-                          if (quantity > 1) {
-                            setState(() {
-                              quantity--;
-                              if (isInCart) updateCartQuantity();
-                            });
-                          }
-                        },
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          quantity.toString(),
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add_circle_outline),
-                        onPressed: () {
-                          setState(() {
-                            quantity++;
-                            if (isInCart) updateCartQuantity();
-                          });
-                        },
-                      ),
-                    ],
+          // Replace the quantity controls in the build method with:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.remove_circle_outline),
+                onPressed: () {
+                  if (quantity > 1) {
+                    setState(() {
+                      quantity--;
+                      if (isInCart) updateCartQuantity();
+                    });
+                  }
+                },
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  quantity.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.add_circle_outline),
+                onPressed: () {
+                  if (quantity < widget.product.quantity) { // Add this check
+                    setState(() {
+                      quantity++;
+                      if (isInCart) updateCartQuantity();
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Maximum available quantity reached')),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
 
                   SizedBox(height: 24),
 

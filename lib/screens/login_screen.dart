@@ -41,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     await prefs.setString('email', email);
     await prefs.setString('userName', name);
 
-    // Find the complete user data
     final matchedUser = _users.firstWhere(
       (user) => user['email'] == email,
       orElse: () => {},

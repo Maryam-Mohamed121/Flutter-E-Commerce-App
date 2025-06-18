@@ -62,7 +62,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         await prefs.setString('imagePath', _imagePath!);
       }
 
-      // Update the user data in the users list
       final userList = prefs.getStringList('users') ?? [];
       final updatedUsers = userList.map((userJson) {
         final user = jsonDecode(userJson) as Map<String, dynamic>;
@@ -81,7 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }).toList();
       await prefs.setStringList('users', updatedUsers);
 
-      // Also update the remembered password if it exists
       final rememberedEmail = prefs.getString('rememberedEmail');
       if (rememberedEmail == _emailController.text) {
         await prefs.setString('rememberedPassword', _passwordController.text);
@@ -130,7 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (shouldLogout == true) {
       final prefs = await SharedPreferences.getInstance();
-      // Only clear login session data
       await prefs.remove('isLoggedIn');
       await prefs.remove('email');
       await prefs.remove('userName');

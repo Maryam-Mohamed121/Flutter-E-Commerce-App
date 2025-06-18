@@ -4,6 +4,7 @@ class CartItem {
   final double price;
   final String image;
   int quantity;
+  final int maxQuantity;
 
   CartItem({
     required this.id,
@@ -11,6 +12,7 @@ class CartItem {
     required this.price,
     required this.image,
     required this.quantity,
+    required this.maxQuantity,
   });
 
   Map<String, dynamic> toMap() => {
@@ -19,6 +21,7 @@ class CartItem {
     'price': price,
     'image': image,
     'quantity': quantity,
+    'maxQuantity': maxQuantity,
   };
 
   factory CartItem.fromMap(Map<String, dynamic> map) => CartItem(
@@ -27,5 +30,6 @@ class CartItem {
     price: map['price'],
     image: map['image'],
     quantity: map['quantity'],
+    maxQuantity: map['maxQuantity'] ?? 50,
   );
 }

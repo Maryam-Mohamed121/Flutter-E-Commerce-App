@@ -38,7 +38,7 @@ class ProductSearchDelegate extends SearchDelegate<void> {
         .toList();
 
     if (results.isEmpty) {
-      return Center(child: Text('No products found'));
+      return Center(child: Text('No products found',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.red),));
     }
 
     return ListView.builder(

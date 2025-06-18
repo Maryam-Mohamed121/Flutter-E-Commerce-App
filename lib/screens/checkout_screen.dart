@@ -108,10 +108,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Please login to place an order')));
-      return;
+      return print("login first");
     }
 
-    // Get cart items
+
     final String? cartData = prefs.getString('cart_$userId');
     if (cartData == null) return;
 
@@ -119,17 +119,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         .map((item) => CartItem.fromMap(item))
         .toList();
 
-    // Create new order
+
     final newOrder = Order(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       userId: userId,
       items: cartItems,
       totalAmount: totalAmount + shippingFee,
       orderDate: DateTime.now(),
-      status: 'Pending',
+
     );
 
-    // Get existing orders
+
     final String? ordersData = prefs.getString('orders_$userId');
     List<Order> orders = [];
     if (ordersData != null) {
@@ -138,10 +138,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           .toList();
     }
 
-    // Add new order
+
     orders.add(newOrder);
 
-    // Save updated orders
+
     await prefs.setString(
       'orders_$userId',
       jsonEncode(orders.map((e) => e.toMap()).toList()),

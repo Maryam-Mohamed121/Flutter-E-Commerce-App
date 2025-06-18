@@ -120,6 +120,7 @@ class _ProductCardState extends State<ProductCard> {
           price: product.price,
           image: product.image,
           quantity: 1,
+          maxQuantity: product.quantity,
         );
 
         final existingItemIndex = cartItems.indexWhere(

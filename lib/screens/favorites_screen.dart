@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'product_details_screen.dart';
 import 'dart:convert';
 
 class WishlistScreen extends StatefulWidget {
@@ -127,84 +128,94 @@ class _WishlistScreenState extends State<WishlistScreen> {
               ),
             )
           : GridView.builder(
-              padding: EdgeInsets.all(16),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+        padding: EdgeInsets.all(16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.75,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: _wishlistItems.length,
+        itemBuilder: (context, index) {
+          final product = _wishlistItems[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailsScreen(product: product),
+                ),
+              );
+            },
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              itemCount: _wishlistItems.length,
-              itemBuilder: (context, index) {
-                final product = _wishlistItems[index];
-                return Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product Image
+                  Stack(
                     children: [
-                      // Product Image
-                      Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(12),
-                            ),
-                            child: Image.asset(
-                              product.image,
-                              height: 150,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 28,
-                              ),
-                              onPressed: () => removeFromWishlist(product.id),
-                            ),
-                          ),
-                        ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                        child: Image.asset(
+                          product.image,
+                          height: 150,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      // Product Details
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.name,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              '${product.price.toStringAsFixed(2)} EGP',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF476A88),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 28,
+                          ),
+                          onPressed: () => removeFromWishlist(product.id),
                         ),
                       ),
                     ],
                   ),
-                );
-              },
+                  // Product Details
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '${product.price.toStringAsFixed(2)} EGP',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF476A88),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 }
